@@ -1,0 +1,17 @@
+# PyInstaller
+*.spec.bak
+build/
+dist/
+*.manifest
+*.spec~
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+desktop.ini
+
+# Scenario files
+/data
+/tyrano
