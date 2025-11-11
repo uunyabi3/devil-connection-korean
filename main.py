@@ -72,10 +72,15 @@ class InstallWorker(QThread):
             dst_scenario = app_folder / "data/scenario"
             if src_scenario.exists():
                 dst_scenario.mkdir(parents=True, exist_ok=True)
-                ks_files = list(src_scenario.glob("*.ks"))
+                ks_files = list(src_scenario.glob("**/*.ks"))
                 self.log_signal.emit(f"  - scenario 파일 {len(ks_files)}개 복사 중...", "info")
                 for ks_file in ks_files:
-                    shutil.copy2(ks_file, dst_scenario / ks_file.name)
+                    # 상대 경로를 유지하여 하위 폴더 구조도 복사
+                    relative_path = ks_file.relative_to(src_scenario)
+                    dest_file = dst_scenario / relative_path
+                    # 하위 폴더가 있으면 생성
+                    dest_file.parent.mkdir(parents=True, exist_ok=True)
+                    shutil.copy2(ks_file, dest_file)
                 self.log_signal.emit("  - scenario 파일 복사 완료", "success")
 
                                  

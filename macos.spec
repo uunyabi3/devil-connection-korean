@@ -4,6 +4,7 @@ block_cipher = None
 
 datas = [
     ('data/scenario/*.ks', 'data/scenario'),
+    ('data/scenario/system/*.ks', 'data/scenario/system'),
     ('data/others/*.js', 'data/others'),
     ('tyrano/lang.js', 'tyrano'),
 ]
