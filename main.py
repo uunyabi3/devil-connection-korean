@@ -64,10 +64,10 @@ class InstallWorker(QThread):
             extract_archive(asar_path, app_folder)
             self.log_signal.emit("압축 해제 완료", "success")
 
-                         
+
             self.log_signal.emit("5단계: 번역 파일 복사 중...", "info")
 
-                                   
+
             src_scenario = self.base_path / "data/scenario"
             dst_scenario = app_folder / "data/scenario"
             if src_scenario.exists():
@@ -81,24 +81,71 @@ class InstallWorker(QThread):
                     shutil.copy2(ks_file, dest_file)
                 self.log_signal.emit("  - scenario 파일 복사 완료", "success")
 
-                                 
+
             src_others = self.base_path / "data/others"
             dst_others = app_folder / "data/others"
             if src_others.exists():
                 dst_others.mkdir(parents=True, exist_ok=True)
                 js_files = list(src_others.glob("*.js"))
-                self.log_signal.emit(f"  - others 파일 {len(js_files)}개 복사 중...", "info")
+                self.log_signal.emit(f"  - others JS 파일 {len(js_files)}개 복사 중...", "info")
                 for js_file in js_files:
                     shutil.copy2(js_file, dst_others / js_file.name)
-                self.log_signal.emit("  - others 파일 복사 완료", "success")
+                self.log_signal.emit("  - others JS 파일 복사 완료", "success")
 
-                               
+            # MapleStory 폰트 파일 복사
+            src_font = self.base_path / "data/others/MapleStoryBold.ttf"
+            dst_font = app_folder / "data/others/MapleStoryBold.ttf"
+            if src_font.exists():
+                shutil.copy2(src_font, dst_font)
+                self.log_signal.emit("  - MapleStory 폰트 복사 완료", "success")
+
+            # plugin 폴더 복사
+            src_backlog_js = self.base_path / "data/others/plugin/backlog/backlog/backlog.js"
+            src_backlog_css = self.base_path / "data/others/plugin/backlog/backlog/backlog.css"
+            dst_backlog_dir = app_folder / "data/others/plugin/backlog/backlog"
+            if src_backlog_js.exists() or src_backlog_css.exists():
+                dst_backlog_dir.mkdir(parents=True, exist_ok=True)
+                if src_backlog_js.exists():
+                    shutil.copy2(src_backlog_js, dst_backlog_dir / "backlog.js")
+                if src_backlog_css.exists():
+                    shutil.copy2(src_backlog_css, dst_backlog_dir / "backlog.css")
+                self.log_signal.emit("  - backlog 플러그인 복사 완료", "success")
+
+            src_popopo = self.base_path / "data/others/plugin/popopo_chara/main.js"
+            dst_popopo_dir = app_folder / "data/others/plugin/popopo_chara"
+            if src_popopo.exists():
+                dst_popopo_dir.mkdir(parents=True, exist_ok=True)
+                shutil.copy2(src_popopo, dst_popopo_dir / "main.js")
+                self.log_signal.emit("  - popopo_chara 플러그인 복사 완료", "success")
+
+            # system 폴더 복사
+            src_config = self.base_path / "data/system/Config.tjs"
+            dst_system = app_folder / "data/system"
+            if src_config.exists():
+                dst_system.mkdir(parents=True, exist_ok=True)
+                shutil.copy2(src_config, dst_system / "Config.tjs")
+                self.log_signal.emit("  - system/Config.tjs 복사 완료", "success")
+
+
             src_lang = self.base_path / "tyrano/lang.js"
             dst_lang = app_folder / "tyrano/lang.js"
             if src_lang.exists():
                 dst_lang.parent.mkdir(parents=True, exist_ok=True)
                 shutil.copy2(src_lang, dst_lang)
                 self.log_signal.emit("  - tyrano/lang.js 복사 완료", "success")
+
+            src_tyrano_css = self.base_path / "tyrano/tyrano.css"
+            dst_tyrano_css = app_folder / "tyrano/tyrano.css"
+            if src_tyrano_css.exists():
+                shutil.copy2(src_tyrano_css, dst_tyrano_css)
+                self.log_signal.emit("  - tyrano/tyrano.css 복사 완료", "success")
+
+            src_font_css = self.base_path / "tyrano/css/font.css"
+            dst_font_css_dir = app_folder / "tyrano/css"
+            if src_font_css.exists():
+                dst_font_css_dir.mkdir(parents=True, exist_ok=True)
+                shutil.copy2(src_font_css, dst_font_css_dir / "font.css")
+                self.log_signal.emit("  - tyrano/css/font.css 복사 완료", "success")
 
 
             self.log_signal.emit("6단계: app 폴더를 app.asar로 재압축 중... (시간이 걸릴 수 있습니다)", "info")
@@ -114,12 +161,12 @@ class InstallWorker(QThread):
                 shutil.rmtree(app_folder)
                 self.log_signal.emit("app 폴더를 삭제했습니다.", "success")
 
-                
+
             self.log_signal.emit("=" * 60, "info")
             self.log_signal.emit("한글패치가 완료되었습니다!", "success")
             self.log_signal.emit("Steam에서 게임을 실행하면 한글로 플레이하실 수 있습니다.", "success")
 
-                                  
+
             if platform.system() == "Darwin":
                 self.log_signal.emit("", "info")
                 self.log_signal.emit("macOS 사용자 안내:", "warning")
@@ -128,21 +175,33 @@ class InstallWorker(QThread):
                 self.log_signal.emit("1. 시스템 설정 > 개인정보 보호 및 보안 열기", "info")
                 self.log_signal.emit("2. '그래도 열기' 버튼 클릭", "info")
 
+            self.log_signal.emit("", "info")
+            self.log_signal.emit("메이플스토리 서체 사용 안내:", "info")
+            self.log_signal.emit("본 한글패치는 ㈜넥슨코리아의 메이플스토리 서체를 사용합니다.", "info")
+            self.log_signal.emit("메이플스토리 서체의 지적 재산권은 ㈜넥슨코리아에 있습니다.", "info")
             self.log_signal.emit("=" * 60, "info")
 
-                    
+
             if platform.system() == "Darwin":
                 complete_msg = (
                     "한글패치가 완료되었습니다!\n\n"
                     "Steam에서 게임을 실행하시면 됩니다.\n\n"
                     "'손상되었습니다' 경고가 나타나면:\n"
                     "시스템 설정 > 개인정보 보호 및 보안\n"
-                    "에서 '그래도 열기' 버튼을 클릭하세요."
+                    "에서 '그래도 열기' 버튼을 클릭하세요.\n\n"
+                    "────────────────────────\n"
+                    "메이플스토리 서체 사용 안내:\n"
+                    "본 한글패치는 ㈜넥슨코리아의 메이플스토리 서체를 사용합니다.\n"
+                    "메이플스토리 서체의 지적 재산권은 ㈜넥슨코리아에 있습니다."
                 )
             else:
                 complete_msg = (
                     "한글패치가 완료되었습니다!\n\n"
-                    "Steam에서 게임을 실행하면 한글로 플레이하실 수 있습니다."
+                    "Steam에서 게임을 실행하면 한글로 플레이하실 수 있습니다.\n\n"
+                    "────────────────────────\n"
+                    "메이플스토리 서체 사용 안내:\n"
+                    "본 한글패치는 ㈜넥슨코리아의 메이플스토리 서체를 사용합니다.\n"
+                    "메이플스토리 서체의 지적 재산권은 ㈜넥슨코리아에 있습니다."
                 )
 
             self.finished_signal.emit(True, complete_msg)
@@ -303,10 +362,16 @@ class KoreanPatchInstaller(QMainWindow):
                   
         self.apply_styles()
 
-                
+
         self.add_log("でびるコネクショん 한글패치 프로그램을 시작합니다.", "info")
         self.add_log("", "info")
         self.add_log("'자동 감지' 버튼을 클릭하거나 게임 경로를 직접 선택해주세요.", "info")
+        self.add_log("", "info")
+        self.add_log("=" * 60, "info")
+        self.add_log("메이플스토리 서체 사용 안내", "info")
+        self.add_log("본 프로그램은 ㈜넥슨코리아의 메이플스토리 서체를 사용합니다.", "info")
+        self.add_log("메이플스토리 서체의 지적 재산권은 ㈜넥슨코리아에 있습니다.", "info")
+        self.add_log("=" * 60, "info")
 
     def create_card(self):
         card = QFrame()
