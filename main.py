@@ -92,14 +92,12 @@ class InstallWorker(QThread):
                     shutil.copy2(js_file, dst_others / js_file.name)
                 self.log_signal.emit("  - others JS 파일 복사 완료", "success")
 
-            # MapleStory 폰트 파일 복사
             src_font = self.base_path / "data/others/MapleStoryBold.ttf"
             dst_font = app_folder / "data/others/MapleStoryBold.ttf"
             if src_font.exists():
                 shutil.copy2(src_font, dst_font)
                 self.log_signal.emit("  - MapleStory 폰트 복사 완료", "success")
 
-            # plugin 폴더 복사
             src_backlog_js = self.base_path / "data/others/plugin/backlog/backlog/backlog.js"
             src_backlog_css = self.base_path / "data/others/plugin/backlog/backlog/backlog.css"
             dst_backlog_dir = app_folder / "data/others/plugin/backlog/backlog"
@@ -118,7 +116,6 @@ class InstallWorker(QThread):
                 shutil.copy2(src_popopo, dst_popopo_dir / "main.js")
                 self.log_signal.emit("  - popopo_chara 플러그인 복사 완료", "success")
 
-            # system 폴더 복사
             src_config = self.base_path / "data/system/Config.tjs"
             dst_system = app_folder / "data/system"
             if src_config.exists():
