@@ -44,7 +44,7 @@ exe = EXE(
     a.scripts,
     [],
     exclude_binaries=True, 
-    name='DevilConnection-Patcher',
+    name='DevilConnection-Patcher-macOS',
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
