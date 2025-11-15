@@ -66,12 +66,12 @@ coll = COLLECT(
     strip=False,
     upx=True,
     upx_exclude=[],
-    name='DevilConnection-Patcher',
+    name='DevilConnection-Patcher-macOS',
 )
 
 app = BUNDLE(
     coll,
-    name='DevilConnection-Patcher.app',
+    name='DevilConnection-Patcher-macOS.app',
     icon=None, 
     bundle_identifier='com.nyabi.devilconnection.patcher',
 )
