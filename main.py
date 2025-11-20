@@ -12,11 +12,7 @@ from PyQt6.QtWidgets import (
 from PyQt6.QtCore import Qt, QThread, pyqtSignal
 from PyQt6.QtGui import QFont, QPalette, QColor
 
-try:
-    from asar import extract_archive, create_archive
-    ASAR_AVAILABLE = True
-except ImportError:
-    ASAR_AVAILABLE = False
+from asar import extract_archive, create_archive
 
 
 class InstallWorker(QThread):
@@ -52,21 +48,17 @@ class InstallWorker(QThread):
                 shutil.copy2(asar_path, backup_path)
                 self.log_signal.emit("백업 완료", "success")
 
-                             
             self.log_signal.emit("3단계: 기존 패치 파일 정리...", "info")
             if app_folder.exists():
                 self.log_signal.emit("기존 app 폴더를 삭제합니다...", "info")
                 shutil.rmtree(app_folder)
                 self.log_signal.emit("삭제 완료", "success")
 
-                               
             self.log_signal.emit("4단계: app.asar 압축 해제 중... (시간이 걸릴 수 있습니다)", "info")
             extract_archive(asar_path, app_folder)
             self.log_signal.emit("압축 해제 완료", "success")
 
-
             self.log_signal.emit("5단계: 번역 파일 복사 중...", "info")
-
 
             src_scenario = self.base_path / "data/scenario"
             dst_scenario = app_folder / "data/scenario"
@@ -80,7 +72,6 @@ class InstallWorker(QThread):
                     dest_file.parent.mkdir(parents=True, exist_ok=True)
                     shutil.copy2(ks_file, dest_file)
                 self.log_signal.emit("  - scenario 파일 복사 완료", "success")
-
 
             src_others = self.base_path / "data/others"
             dst_others = app_folder / "data/others"
@@ -123,7 +114,6 @@ class InstallWorker(QThread):
                 shutil.copy2(src_config, dst_system / "Config.tjs")
                 self.log_signal.emit("  - system/Config.tjs 복사 완료", "success")
 
-
             src_lang = self.base_path / "tyrano/lang.js"
             dst_lang = app_folder / "tyrano/lang.js"
             if src_lang.exists():
@@ -144,7 +134,6 @@ class InstallWorker(QThread):
                 shutil.copy2(src_font_css, dst_font_css_dir / "font.css")
                 self.log_signal.emit("  - tyrano/css/font.css 복사 완료", "success")
 
-
             self.log_signal.emit("6단계: app 폴더를 app.asar로 재압축 중... (시간이 걸릴 수 있습니다)", "info")
             if asar_path.exists() and asar_path.is_file():
                 asar_path.unlink()
@@ -158,11 +147,9 @@ class InstallWorker(QThread):
                 shutil.rmtree(app_folder)
                 self.log_signal.emit("app 폴더를 삭제했습니다.", "success")
 
-
             self.log_signal.emit("=" * 60, "info")
             self.log_signal.emit("한글패치가 완료되었습니다!", "success")
             self.log_signal.emit("Steam에서 게임을 실행하면 한글로 플레이하실 수 있습니다.", "success")
-
 
             if platform.system() == "Darwin":
                 self.log_signal.emit("", "info")
@@ -177,7 +164,6 @@ class InstallWorker(QThread):
             self.log_signal.emit("본 한글패치는 ㈜넥슨코리아의 메이플스토리 서체를 사용합니다.", "info")
             self.log_signal.emit("메이플스토리 서체의 지적 재산권은 ㈜넥슨코리아에 있습니다.", "info")
             self.log_signal.emit("=" * 60, "info")
-
 
             if platform.system() == "Darwin":
                 complete_msg = (
@@ -226,36 +212,22 @@ class InstallWorker(QThread):
 class KoreanPatchInstaller(QMainWindow):
     def __init__(self):
         super().__init__()
-
-                  
-        if getattr(sys, 'frozen', False):
-            self.base_path = Path(sys._MEIPASS)
-        else:
-            self.base_path = Path(__file__).parent
-
+        self.base_path = Path(sys._MEIPASS)
         self.worker = None
         self.init_ui()
-
-                       
-        if not ASAR_AVAILABLE:
-            self.add_log("asar 라이브러리가 설치되어 있지 않습니다.", "warning")
-            self.add_log("터미널에서 'pip install asar' 명령어로 설치해주세요.", "warning")
 
     def init_ui(self):
         self.setWindowTitle("でびるコネクショん 한글패치")
         self.setFixedSize(800, 650)
 
-               
         central_widget = QWidget()
         self.setCentralWidget(central_widget)
 
-                 
         main_layout = QVBoxLayout()
         main_layout.setContentsMargins(30, 30, 30, 30)
         main_layout.setSpacing(20)
         central_widget.setLayout(main_layout)
 
-                
         title_layout = QVBoxLayout()
         title_layout.setSpacing(5)
 
@@ -273,7 +245,6 @@ class KoreanPatchInstaller(QMainWindow):
         main_layout.addLayout(title_layout)
         main_layout.addSpacing(10)
 
-                  
         path_card = self.create_card()
         path_layout = QVBoxLayout()
         path_layout.setContentsMargins(20, 20, 20, 20)
@@ -283,18 +254,15 @@ class KoreanPatchInstaller(QMainWindow):
         path_title.setFont(QFont(get_system_font(), 10, QFont.Weight.Bold))
         path_layout.addWidget(path_title)
 
-               
         self.path_input = QLineEdit()
         self.path_input.setFont(QFont(get_system_font(), 10))
         self.path_input.setPlaceholderText("게임이 설치된 경로를 선택하세요")
         self.path_input.setMinimumHeight(40)
         path_layout.addWidget(self.path_input)
 
-                 
         button_layout = QHBoxLayout()
         button_layout.setSpacing(8)
 
-                  
         self.auto_btn = QPushButton("자동 감지")
         self.auto_btn.setFont(QFont(get_system_font(), 10))
         self.auto_btn.setMinimumHeight(40)
@@ -302,7 +270,6 @@ class KoreanPatchInstaller(QMainWindow):
         self.auto_btn.clicked.connect(self.auto_detect_path)
         button_layout.addWidget(self.auto_btn)
 
-                 
         self.browse_btn = QPushButton("찾아보기")
         self.browse_btn.setFont(QFont(get_system_font(), 10))
         self.browse_btn.setMinimumHeight(40)
@@ -310,7 +277,6 @@ class KoreanPatchInstaller(QMainWindow):
         self.browse_btn.clicked.connect(self.browse_path)
         button_layout.addWidget(self.browse_btn)
 
-               
         self.install_btn = QPushButton("설치 시작")
         self.install_btn.setFont(QFont(get_system_font(), 11, QFont.Weight.Bold))
         self.install_btn.setMinimumHeight(40)
@@ -322,7 +288,6 @@ class KoreanPatchInstaller(QMainWindow):
         path_card.setLayout(path_layout)
         main_layout.addWidget(path_card)
 
-                  
         progress_card = self.create_card()
         progress_layout = QVBoxLayout()
         progress_layout.setContentsMargins(20, 15, 20, 15)
@@ -330,14 +295,13 @@ class KoreanPatchInstaller(QMainWindow):
         self.progress_bar = QProgressBar()
         self.progress_bar.setMinimumHeight(8)
         self.progress_bar.setTextVisible(False)
-        self.progress_bar.setRange(0, 0)            
+        self.progress_bar.setRange(0, 0)
         self.progress_bar.setVisible(False)
         progress_layout.addWidget(self.progress_bar)
 
         progress_card.setLayout(progress_layout)
         main_layout.addWidget(progress_card)
 
-               
         log_card = self.create_card()
         log_layout = QVBoxLayout()
         log_layout.setContentsMargins(20, 20, 20, 20)
@@ -356,9 +320,7 @@ class KoreanPatchInstaller(QMainWindow):
         log_card.setLayout(log_layout)
         main_layout.addWidget(log_card, 1)
 
-                  
         self.apply_styles()
-
 
         self.add_log("でびるコネクショん 한글패치 프로그램을 시작합니다.", "info")
         self.add_log("", "info")
@@ -450,7 +412,6 @@ class KoreanPatchInstaller(QMainWindow):
             }
         """)
 
-                      
         self.install_btn.setObjectName("install_btn")
 
     def add_log(self, message, level="info"):
@@ -486,13 +447,11 @@ class KoreanPatchInstaller(QMainWindow):
         possible_paths = []
 
         if system == "Windows":
-                              
             steam_paths = [
                 Path("C:/Program Files (x86)/Steam"),
                 Path("C:/Program Files/Steam"),
             ]
 
-                         
             for drive in "DEFGHIJ":
                 steam_paths.extend([
                     Path(f"{drive}:/Steam"),
@@ -506,8 +465,7 @@ class KoreanPatchInstaller(QMainWindow):
                 if game_path.exists():
                     possible_paths.append(game_path)
 
-        elif system == "Darwin":         
-                            
+        elif system == "Darwin":
             steam_path = Path.home() / "Library/Application Support/Steam"
             game_path = steam_path / "steamapps/common/でびるコネクショん"
             if game_path.exists():
@@ -528,40 +486,27 @@ class KoreanPatchInstaller(QMainWindow):
             )
 
     def start_installation(self):
-        if not ASAR_AVAILABLE:
-            QMessageBox.critical(
-                self,
-                "설치 오류",
-                "asar 라이브러리가 설치되어 있지 않습니다.\n\n"
-                "터미널에서 다음 명령어를 실행해주세요:\n"
-                "pip install asar"
-            )
-            return
-
         game_path = self.path_input.text().strip()
         if not game_path:
             QMessageBox.warning(self, "경로 없음", "게임 경로를 먼저 선택해주세요.")
             return
 
-                 
         self.install_btn.setEnabled(False)
         self.auto_btn.setEnabled(False)
         self.browse_btn.setEnabled(False)
         self.progress_bar.setVisible(True)
 
-                   
         self.worker = InstallWorker(game_path, self.base_path)
         self.worker.log_signal.connect(self.add_log)
         self.worker.finished_signal.connect(self.installation_finished)
         self.worker.start()
 
-    def installation_finished(self, success, message):                
+    def installation_finished(self, success, message):
         self.install_btn.setEnabled(True)
         self.auto_btn.setEnabled(True)
         self.browse_btn.setEnabled(True)
         self.progress_bar.setVisible(False)
 
-                
         if success:
             QMessageBox.information(self, "설치 완료", message)
         else:
@@ -570,28 +515,26 @@ class KoreanPatchInstaller(QMainWindow):
 
 def get_system_font():
     system = platform.system()
-    if system == "Darwin":         
+    if system == "Darwin":
         return "Apple SD Gothic Neo"
     elif system == "Windows":
         return "Malgun Gothic"
-    else:         
+    else:
         return "Noto Sans CJK KR"
 
 
 def get_monospace_font():
     system = platform.system()
-    if system == "Darwin":         
+    if system == "Darwin":
         return "Menlo"
     elif system == "Windows":
         return "Consolas"
-    else:         
+    else:
         return "DejaVu Sans Mono"
 
 
 def main():
     app = QApplication(sys.argv)
-
-                  
     font = QFont(get_system_font(), 10)
     app.setFont(font)
 
