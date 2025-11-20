@@ -10,10 +10,9 @@ from PyQt6.QtWidgets import (
     QFileDialog, QMessageBox, QFrame
 )
 from PyQt6.QtCore import Qt, QThread, pyqtSignal
-from PyQt6.QtGui import QFont, QPalette, QColor
+from PyQt6.QtGui import QFont
 
 from asar import extract_archive, create_archive
-
 
 class InstallWorker(QThread):
     log_signal = pyqtSignal(str, str)  
