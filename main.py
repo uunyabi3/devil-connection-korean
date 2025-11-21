@@ -202,8 +202,8 @@ class InstallWorker(QThread):
             asar_path = game_path / "resources/app.asar"
         elif system == "Darwin":
             asar_path = game_path / "DevilConnection.app/Contents/Resources/app.asar"
-        else:
-            return None
+        else:  
+            asar_path = game_path / "resources/app.asar"
 
         return asar_path if asar_path.exists() else None
 
@@ -469,6 +469,17 @@ class KoreanPatchInstaller(QMainWindow):
             game_path = steam_path / "steamapps/common/でびるコネクショん"
             if game_path.exists():
                 possible_paths.append(game_path)
+
+        else:  
+            steam_paths = [
+                Path.home() / ".local/share/Steam",
+                Path.home() / ".steam/steam",
+            ]
+
+            for steam_path in steam_paths:
+                game_path = steam_path / "steamapps/common/でびるコネクショん"
+                if game_path.exists():
+                    possible_paths.append(game_path)
 
         if possible_paths:
             detected_path = str(possible_paths[0])
