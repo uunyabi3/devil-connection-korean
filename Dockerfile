@@ -2,7 +2,7 @@ FROM python:3.11-slim
 
 WORKDIR /app
 
-RUN apt-get update && apt-get install -y \
+RUN apt update && apt install -y \
     gcc \
     g++ \
     make \
@@ -52,6 +52,6 @@ RUN pyinstaller linux.spec && \
     ln -sf usr/share/applications/devilconnection-patcher.desktop devilconnection-patcher.desktop && \
     ln -sf usr/share/icons/hicolor/256x256/apps/devilconnection-patcher.png devilconnection-patcher.png && \
     cd .. && \
-    ARCH=x86_64 /usr/local/bin/appimagetool-extracted AppDir dist/DevilConnection-Patcher-Linux-x86_64.AppImage
+    ARCH=x86_64 /usr/local/bin/appimagetool-extracted AppDir dist/DevilConnection-Patcher-Linux.AppImage
 
-CMD ["cp", "-r", "dist/", "/output/"]
+CMD ["sh", "-c", "cp -r dist/* /output/"]
