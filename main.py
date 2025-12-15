@@ -59,79 +59,23 @@ class InstallWorker(QThread):
 
             self.log_signal.emit("5단계: 번역 파일 복사 중...", "info")
 
-            src_scenario = self.base_path / "data/scenario"
-            dst_scenario = app_folder / "data/scenario"
-            if src_scenario.exists():
-                dst_scenario.mkdir(parents=True, exist_ok=True)
-                ks_files = list(src_scenario.glob("**/*.ks"))
-                self.log_signal.emit(f"  - scenario 파일 {len(ks_files)}개 복사 중...", "info")
-                for ks_file in ks_files:
-                    relative_path = ks_file.relative_to(src_scenario)
-                    dest_file = dst_scenario / relative_path
-                    dest_file.parent.mkdir(parents=True, exist_ok=True)
-                    shutil.copy2(ks_file, dest_file)
-                self.log_signal.emit("  - scenario 파일 복사 완료", "success")
+            dirs_to_copy = [
+                "data/scenario",
+                "data/others",
+                "data/system",
+                "data/fgimage",
+                "data/image",
+                "tyrano"
+            ]
 
-            src_others = self.base_path / "data/others"
-            dst_others = app_folder / "data/others"
-            if src_others.exists():
-                dst_others.mkdir(parents=True, exist_ok=True)
-                js_files = list(src_others.glob("*.js"))
-                self.log_signal.emit(f"  - others JS 파일 {len(js_files)}개 복사 중...", "info")
-                for js_file in js_files:
-                    shutil.copy2(js_file, dst_others / js_file.name)
-                self.log_signal.emit("  - others JS 파일 복사 완료", "success")
+            for dir_name in dirs_to_copy:
+                src_dir = self.base_path / dir_name
+                dst_dir = app_folder / dir_name
 
-            src_font = self.base_path / "data/others/MapleStoryBold.ttf"
-            dst_font = app_folder / "data/others/MapleStoryBold.ttf"
-            if src_font.exists():
-                shutil.copy2(src_font, dst_font)
-                self.log_signal.emit("  - MapleStory 폰트 복사 완료", "success")
-
-            src_backlog_js = self.base_path / "data/others/plugin/backlog/backlog/backlog.js"
-            src_backlog_css = self.base_path / "data/others/plugin/backlog/backlog/backlog.css"
-            dst_backlog_dir = app_folder / "data/others/plugin/backlog/backlog"
-            if src_backlog_js.exists() or src_backlog_css.exists():
-                dst_backlog_dir.mkdir(parents=True, exist_ok=True)
-                if src_backlog_js.exists():
-                    shutil.copy2(src_backlog_js, dst_backlog_dir / "backlog.js")
-                if src_backlog_css.exists():
-                    shutil.copy2(src_backlog_css, dst_backlog_dir / "backlog.css")
-                self.log_signal.emit("  - backlog 플러그인 복사 완료", "success")
-
-            src_popopo = self.base_path / "data/others/plugin/popopo_chara/main.js"
-            dst_popopo_dir = app_folder / "data/others/plugin/popopo_chara"
-            if src_popopo.exists():
-                dst_popopo_dir.mkdir(parents=True, exist_ok=True)
-                shutil.copy2(src_popopo, dst_popopo_dir / "main.js")
-                self.log_signal.emit("  - popopo_chara 플러그인 복사 완료", "success")
-
-            src_config = self.base_path / "data/system/Config.tjs"
-            dst_system = app_folder / "data/system"
-            if src_config.exists():
-                dst_system.mkdir(parents=True, exist_ok=True)
-                shutil.copy2(src_config, dst_system / "Config.tjs")
-                self.log_signal.emit("  - system/Config.tjs 복사 완료", "success")
-
-            src_lang = self.base_path / "tyrano/lang.js"
-            dst_lang = app_folder / "tyrano/lang.js"
-            if src_lang.exists():
-                dst_lang.parent.mkdir(parents=True, exist_ok=True)
-                shutil.copy2(src_lang, dst_lang)
-                self.log_signal.emit("  - tyrano/lang.js 복사 완료", "success")
-
-            src_tyrano_css = self.base_path / "tyrano/tyrano.css"
-            dst_tyrano_css = app_folder / "tyrano/tyrano.css"
-            if src_tyrano_css.exists():
-                shutil.copy2(src_tyrano_css, dst_tyrano_css)
-                self.log_signal.emit("  - tyrano/tyrano.css 복사 완료", "success")
-
-            src_font_css = self.base_path / "tyrano/css/font.css"
-            dst_font_css_dir = app_folder / "tyrano/css"
-            if src_font_css.exists():
-                dst_font_css_dir.mkdir(parents=True, exist_ok=True)
-                shutil.copy2(src_font_css, dst_font_css_dir / "font.css")
-                self.log_signal.emit("  - tyrano/css/font.css 복사 완료", "success")
+                if src_dir.exists():
+                    self.log_signal.emit(f"  - {dir_name} 폴더 복사 중...", "info")
+                    shutil.copytree(src_dir, dst_dir, dirs_exist_ok=True)
+                    self.log_signal.emit(f"  - {dir_name} 복사 완료", "success")
 
             self.log_signal.emit("6단계: app 폴더를 app.asar로 재압축 중... (시간이 걸릴 수 있습니다)", "info")
             if asar_path.exists() and asar_path.is_file():
@@ -241,6 +185,12 @@ class KoreanPatchInstaller(QMainWindow):
         subtitle_label.setStyleSheet("color: #718096;")
         title_layout.addWidget(subtitle_label)
 
+        credit_label = QLabel("이미지 번역 도움: 토니")
+        credit_label.setFont(QFont(get_system_font(), 10))
+        credit_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        credit_label.setStyleSheet("color: #4a5568; margin-top: 2px;")
+        title_layout.addWidget(credit_label)
+
         main_layout.addLayout(title_layout)
         main_layout.addSpacing(10)
 
@@ -322,6 +272,8 @@ class KoreanPatchInstaller(QMainWindow):
         self.apply_styles()
 
         self.add_log("でびるコネクショん 한글패치 프로그램을 시작합니다.", "info")
+        self.add_log("", "info")
+        self.add_log("이미지 번역에 도움을 주신 '토니'님께 진심으로 감사드립니다.", "success")
         self.add_log("", "info")
         self.add_log("'자동 감지' 버튼을 클릭하거나 게임 경로를 직접 선택해주세요.", "info")
         self.add_log("", "info")

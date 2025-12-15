@@ -3,17 +3,12 @@
 block_cipher = None
 
 datas = [
-    ('data/scenario/*.ks', 'data/scenario'),
-    ('data/scenario/system/*.ks', 'data/scenario/system'),
-    ('data/others/*.js', 'data/others'),
-    ('data/others/*.ttf', 'data/others'),
-    ('data/others/plugin/backlog/backlog/*.js', 'data/others/plugin/backlog/backlog'),
-    ('data/others/plugin/backlog/backlog/*.css', 'data/others/plugin/backlog/backlog'),
-    ('data/others/plugin/popopo_chara/*.js', 'data/others/plugin/popopo_chara'),
-    ('data/system/*.tjs', 'data/system'),
-    ('tyrano/lang.js', 'tyrano'),
-    ('tyrano/*.css', 'tyrano'),
-    ('tyrano/css/*.css', 'tyrano/css'),
+    ('data/scenario', 'data/scenario'),
+    ('data/others', 'data/others'),
+    ('data/system', 'data/system'),
+    ('data/fgimage', 'data/fgimage'),
+    ('data/image', 'data/image'),
+    ('tyrano', 'tyrano'),
 ]
 
 a = Analysis(
