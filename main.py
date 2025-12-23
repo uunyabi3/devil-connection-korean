@@ -185,7 +185,7 @@ class KoreanPatchInstaller(QMainWindow):
         subtitle_label.setStyleSheet("color: #718096;")
         title_layout.addWidget(subtitle_label)
 
-        credit_label = QLabel("이미지 번역: 토니, 체퓨")
+        credit_label = QLabel("이미지 번역: 토니, 체퓨 | 영상 번역: 민버드")
         credit_label.setFont(QFont(get_system_font(), 10))
         credit_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         credit_label.setStyleSheet("color: #4a5568; margin-top: 2px;")
@@ -273,7 +273,7 @@ class KoreanPatchInstaller(QMainWindow):
 
         self.add_log("でびるコネクショん 한글패치 프로그램을 시작합니다.", "info")
         self.add_log("", "info")
-        self.add_log("이미지 번역을 진행해주신 '토니', '체퓨'님께 진심으로 감사드립니다.", "success")
+        self.add_log("이미지 번역에 '토니', '체퓨'님, 영상 번역에 '민버드'님께 진심으로 감사드립니다.", "success")
         self.add_log("", "info")
         self.add_log("'자동 감지' 버튼을 클릭하거나 게임 경로를 직접 선택해주세요.", "info")
         self.add_log("", "info")
