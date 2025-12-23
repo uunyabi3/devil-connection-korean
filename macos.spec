@@ -8,6 +8,7 @@ datas = [
     ('data/system', 'data/system'),
     ('data/fgimage', 'data/fgimage'),
     ('data/image', 'data/image'),
+    ('data/video', 'data/video'),
     ('tyrano', 'tyrano'),
 ]
 

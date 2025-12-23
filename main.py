@@ -65,6 +65,7 @@ class InstallWorker(QThread):
                 "data/system",
                 "data/fgimage",
                 "data/image",
+                "data/video",
                 "tyrano"
             ]
 
