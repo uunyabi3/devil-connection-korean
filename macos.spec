@@ -10,6 +10,7 @@ datas = [
     ('data/image', 'data/image'),
     ('data/video', 'data/video'),
     ('tyrano', 'tyrano'),
+    ('data/bgimage', 'data/bgimage')
 ]
 
 a = Analysis(
