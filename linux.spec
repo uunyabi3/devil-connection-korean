@@ -43,7 +43,7 @@ exe = EXE(
     a.zipfiles,
     a.datas,
     [],
-    name='DevilConnection-Patcher-Linux',
+    name='DevilConnection-Patcher-Linux-x86_64',
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,

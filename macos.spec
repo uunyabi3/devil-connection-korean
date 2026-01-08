@@ -41,7 +41,7 @@ exe = EXE(
     a.scripts,
     [],
     exclude_binaries=True, 
-    name='DevilConnection-Patcher-macOS',
+    name='DevilConnection-Patcher-macOS-arm64',
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
@@ -63,12 +63,12 @@ coll = COLLECT(
     strip=False,
     upx=True,
     upx_exclude=[],
-    name='DevilConnection-Patcher-macOS',
+    name='DevilConnection-Patcher-macOS-arm64',
 )
 
 app = BUNDLE(
     coll,
-    name='DevilConnection-Patcher-macOS.app',
+    name='DevilConnection-Patcher-macOS-arm64.app',
     icon=None, 
     bundle_identifier='com.nyabi.devilconnection.patcher',
 )
