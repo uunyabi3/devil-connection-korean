@@ -18,14 +18,11 @@
 1. GitHub 페이지 상단의 **[Releases](../../releases)** 탭으로 이동합니다.
 2. 최신 릴리즈에서 본인의 운영체제에 맞는 패치 프로그램을 다운로드합니다.
    - Windows: `DevilConnection-Patcher-Windows-x64.exe`
-   - macOS: `DevilConnection-Patcher-macOS-arm64.zip` (**Apple Silicon 전용**)
+   - macOS: `DevilConnection-Patcher-macOS-arm64.zip`
    - Linux: `DevilConnection-Patcher-Linux-x86_64.AppImage`
 3. 다운로드한 프로그램을 실행하고 안내에 따라 진행합니다.
    - Linux: AppImage 파일에 실행 권한을 부여해야 합니다: `chmod +x DevilConnection-Patcher-Linux-x86_64.AppImage`
 4. 게임을 실행하면 한글 번역이 적용됩니다!
-
-## 주의사항
-- macOS Intel 칩 기반 모델은 현재 지원하지 않습니다. 
 
 ---
 
