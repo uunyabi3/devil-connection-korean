@@ -21,7 +21,7 @@
    - macOS: `DevilConnection-Patcher-macOS-arm64.zip`
    - Linux: `DevilConnection-Patcher-Linux-x86_64`
 3. 다운로드한 프로그램을 실행하고 안내에 따라 진행합니다.
-   - Linux: AppImage 파일에 실행 권한을 부여해야 합니다: `chmod +x DevilConnection-Patcher-Linux-x86_64`
+   - Linux: 실행 파일에 실행 권한을 부여해야 합니다: `chmod +x DevilConnection-Patcher-Linux-x86_64`
 4. 게임을 실행하면 한글 번역이 적용됩니다!
 
 ---
