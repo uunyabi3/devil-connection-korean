@@ -46,10 +46,6 @@
 - macOS에서 게임 실행 시 보안 경고가 나타날 수 있습니다. 시스템 설정 > 개인정보 보호 및 보안에서 허용해주세요.
 
 ## 문의 및 제보
-**번역(오역, 의역 등)에 대한 제보는 위에서 안내된 [새로운 리포지토리](https://github.com/oatone-textcat/devil-connection-korean)로 부탁드립니다.**
-
-본 리포지토리의 **패처 프로그램 실행 오류**나 기술적인 문제에 대해서만 아래로 연락해 주시면 감사하겠습니다.
-
 - **Discord**: `@whorunyabi`
 - **커뮤니티**: [데빌 커넥션 마이너 갤러리](https://gall.dcinside.com/mgallery/board/lists?id=debikone)
 
