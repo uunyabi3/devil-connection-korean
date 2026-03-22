@@ -1,21 +1,23 @@
-# 데빌 커넥션 한글패치 (프로젝트 이전 안내)
+# Devil Connection Korean Patch (Relocated)
 
-본 프로젝트는 아래의 리포지토리로 통합 및 이전되었습니다. 최신 버전의 한글 패치와 관련 업데이트는 새로운 주소에서 확인해 주시기 바랍니다.
-
-### 새로운 리포지토리 주소
-[https://github.com/nyabi021/devil-connection-korean](https://github.com/nyabi021/devil-connection-korean)
+> [!IMPORTANT]
+> **본 프로젝트는 아래의 리포지토리로 통합 및 이전되었습니다.**
+> 최신 업데이트와 기술 지원은 새로운 주소에서 확인해 주시기 바랍니다.
+>
+> **New Repository:** [nyabi021/devil-connection-korean](https://github.com/nyabi021/devil-connection-korean)
 
 ---
 
-## 주요 안내 사항
-- **업데이트 종료:** 현재 이 리포지토리는 더 이상 관리되지 않으며 새로운 기능이나 번역 수정이 반영되지 않습니다.
-- **문의 및 제보:** 오역 신고나 기술적인 문제는 새로운 리포지토리의 Issues 탭을 이용해 주세요.
-- **기존 데이터:** 구버전 패처와 초기 AI 번역 데이터는 기록 보존을 위해 유지되나 사용을 권장하지 않습니다.
+## Maintenance Status
+- **Current Status:** Archive (Read-only)
+- **Technical Support:** Please use the **Issues** tab in the new repository.
+- **Latest Release:** Only available at the new repository link.
 
-## 면책 조항
+## Disclaimer
 - 본 프로젝트는 비공식 팬 번역이며 원작자 및 배급사와 무관합니다.
 - 개인적, 비상업적 용도로만 사용해 주시기 바랍니다.
-- 게임의 저작권은 원 제작사에 있으며, 본 번역 사용으로 인한 책임은 사용자에게 있습니다.
+- 게임의 저작권은 원 제작사에 있으며, 본 번역 사용으로 인한 모든 책임은 사용자에게 있습니다.
+- 게임을 정식으로 구매한 사용자만 이용해 주시기 바랍니다.
 
----
-**Contact:** Discord `@whorunyabi`
+## Contact
+- **Discord:** `@whorunyabi`
